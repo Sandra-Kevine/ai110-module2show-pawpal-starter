@@ -86,3 +86,21 @@ class Scheduler:
     def generate_daily_plan(self):
         """Return tasks sorted by due_time to form a simple daily plan."""
         return sorted(self.get_all_tasks(), key=lambda t: t.due_time)
+
+    def sort_by_time(self):
+       """Sort all tasks chronologically by their due_time (HH:MM format)."""
+       return sorted(self.get_all_tasks(), key=lambda t: t.due_time)
+
+    def filter_tasks(self, pet_name=None, is_complete=None):
+        """Filter tasks by pet name and/or completion status."""
+        tasks = self.get_all_tasks()
+        if pet_name is not None:
+            tasks = [
+                t for t in tasks
+                if self.owner and any(
+                    p.name == pet_name and t in p.tasks for p in self.owner.pets
+                )
+            ]
+        if is_complete is not None:
+            tasks = [t for t in tasks if t.is_complete == is_complete]
+        return tasks
