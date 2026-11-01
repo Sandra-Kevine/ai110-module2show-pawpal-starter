@@ -34,12 +34,12 @@ My design didn’t change much from the initial UML draft — the four-class str
 
 - How did you use AI tools during this project (for example: design brainstorming, debugging, refactoring)?
 - What kinds of prompts or questions were most helpful?
-
+used my AI coding assistant to help implement the core logic for the Owner, Pet, Task, and Scheduler classes, generate a demo script (main.py) to verify the classes worked together correctly, and draft the pytest tests for mark_complete() and task addition. The most helpful prompts were ones where I described my existing skeleton code and asked specifically how the Scheduler should retrieve tasks from the Owner across multiple pets, since that drove a key design decision in my Scheduler class.
 **b. Judgment and verification**
 
 - Describe one moment where you did not accept an AI suggestion as-is.
 - How did you evaluate or verify what the AI suggested?
-
+One moment where I adjusted an AI suggestion was with the Scheduler class — rather than accepting it as a standalone class with no connection to Owner, I made sure it read tasks through Owner.get_all_tasks() so it would correctly combine tasks across multiple pets instead of just one. I verified this worked by running main.py and confirming the printed schedule correctly combined and sorted tasks from both pets by time, and correctly flagged a conflict between two tasks scheduled at the same time. I also ran python3 -m pytest and confirmed both tests passed, which gave me confidence the core logic (marking tasks complete and adding tasks to a pet) was working as intended.
 ---
 
 ## 4. Testing and Verification

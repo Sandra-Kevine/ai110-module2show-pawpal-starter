@@ -21,7 +21,9 @@ Your final app should:
 - Generate a daily schedule/plan based on constraints and priorities
 - Display the plan clearly (and ideally explain the reasoning)
 - Include tests for the most important scheduling behaviors
+## Implementation Summary
 
+The system is built around four classes — Owner, Pet, Task, and Scheduler. An Owner manages multiple Pets, each of which holds a list of Tasks. The Scheduler reads tasks across all of an owner's pets (via Owner.get_all_tasks()) to generate a prioritized daily plan and detect scheduling conflicts.
 ## Getting started
 
 ### Setup
