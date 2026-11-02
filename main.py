@@ -39,3 +39,11 @@ for task in scheduler.sort_by_time():
 print("\n=== Filter: Incomplete tasks only ===")
 for task in scheduler.filter_tasks(is_complete=False):
     print(f"{task.due_time} - {task.task_type}")
+
+    print("\n=== Testing Recurring Task ===")
+daily_task = Task(task_type="Give medicine", due_time="09:00", priority=1, is_recurring=True, frequency="daily")
+dog.add_task(daily_task)
+next_occurrence = scheduler.complete_task(daily_task)
+print(f"Completed: {daily_task.task_type}, is_complete={daily_task.is_complete}")
+if next_occurrence:
+    print(f"Next occurrence created: {next_occurrence.task_type} at {next_occurrence.due_time}")

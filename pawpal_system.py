@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from typing import List
+from datetime import timedelta
 
 
 @dataclass
@@ -9,6 +10,7 @@ class Task:
     priority: int
     is_recurring: bool = False
     is_complete: bool = False
+    frequency: str = None  # "daily" or "weekly", only used if is_recurring is True
 
     def mark_complete(self):
         """Mark this task as completed."""
@@ -17,6 +19,19 @@ class Task:
     def is_overdue(self):
         """Return True if the task is not complete (simple placeholder check)."""
         return not self.is_complete
+
+    def create_next_occurrence(self):
+        """If this task is recurring, return a new Task for the next occurrence."""
+        if not self.is_recurring or not self.frequency:
+            return None
+        return Task(
+            task_type=self.task_type,
+            due_time=self.due_time,
+            priority=self.priority,
+            is_recurring=True,
+            is_complete=False,
+            frequency=self.frequency,
+        )
 
 
 @dataclass
@@ -104,3 +119,15 @@ class Scheduler:
         if is_complete is not None:
             tasks = [t for t in tasks if t.is_complete == is_complete]
         return tasks
+
+    def complete_task(self, task):
+        """Mark a task complete, and if it's recurring, add the next occurrence."""
+        task.mark_complete()
+        next_task = task.create_next_occurrence()
+        if next_task and self.owner:
+            for pet in self.owner.pets:
+                if task in pet.tasks:
+                    pet.add_task(next_task)
+                    break
+        return next_task
+    
