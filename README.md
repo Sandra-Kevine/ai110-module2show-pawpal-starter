@@ -24,6 +24,13 @@ Your final app should:
 ## Implementation Summary
 
 The system is built around four classes — Owner, Pet, Task, and Scheduler. An Owner manages multiple Pets, each of which holds a list of Tasks. The Scheduler reads tasks across all of an owner's pets (via Owner.get_all_tasks()) to generate a prioritized daily plan and detect scheduling conflicts.
+
+## Smarter Scheduling
+
+- **Sorting**: `Scheduler.sort_by_time()` sorts all tasks chronologically by due_time.
+- **Filtering**: `Scheduler.filter_tasks()` filters tasks by pet name and/or completion status.
+- **Conflict detection**: `Scheduler.detect_conflicts()` flags tasks that share the same due_time.
+- **Recurring tasks**: `Scheduler.complete_task()` marks a task complete and automatically creates the next occurrence if the task is recurring (daily or weekly).
 ## Getting started
 
 ### Setup

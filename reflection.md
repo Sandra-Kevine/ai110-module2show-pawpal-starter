@@ -25,7 +25,7 @@ My design didn’t change much from the initial UML draft — the four-class str
 
 - Describe one tradeoff your scheduler makes.
 - Why is that tradeoff reasonable for this scenario?
-
+My conflict detection only checks for exact matches on due_time (e.g., two tasks both at ‘08:00’), rather than detecting overlapping time ranges (e.g., a 15-minute task from 08:00-08:15 overlapping with another task starting at 08:10). This is simpler to implement and understand, but it means two tasks with slightly different times that still practically conflict (like back-to-back tasks with no buffer) won’t be flagged. I chose this tradeoff because exact-time matching covers the most common real-world case (two tasks scheduled for the identical time) and keeps the logic easy to verify, at the cost of missing near-conflicts.
 ---
 
 ## 3. AI Collaboration
