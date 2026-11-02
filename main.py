@@ -30,9 +30,10 @@ conflicts = scheduler.detect_conflicts()
 if conflicts:
     for t1, t2 in conflicts:
         print(f"Conflict: {t1.task_type} and {t2.task_type} both at {t1.due_time}")
-
+else:
     print("No conflicts found.")
-    print("\n=== Sorted by Time ===")
+
+print("\n=== Sorted by Time ===")
 for task in scheduler.sort_by_time():
     print(f"{task.due_time} - {task.task_type}")
 
@@ -40,7 +41,7 @@ print("\n=== Filter: Incomplete tasks only ===")
 for task in scheduler.filter_tasks(is_complete=False):
     print(f"{task.due_time} - {task.task_type}")
 
-    print("\n=== Testing Recurring Task ===")
+print("\n=== Testing Recurring Task ===")
 daily_task = Task(task_type="Give medicine", due_time="09:00", priority=1, is_recurring=True, frequency="daily")
 dog.add_task(daily_task)
 next_occurrence = scheduler.complete_task(daily_task)

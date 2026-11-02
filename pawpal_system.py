@@ -1,6 +1,22 @@
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import List
-from datetime import timedelta
+
+
+def _parse_time(value: str):
+    """Return minutes since midnight for a string like HH:MM or H:MM."""
+    if value is None:
+        return 0
+    text = str(value).strip()
+    if not text:
+        return 0
+    try:
+        return datetime.strptime(text, "%H:%M").hour * 60 + datetime.strptime(text, "%H:%M").minute
+    except ValueError:
+        try:
+            return datetime.strptime(text, "%I:%M").hour * 60 + datetime.strptime(text, "%I:%M").minute
+        except ValueError:
+            return 0
 
 
 @dataclass
@@ -100,11 +116,11 @@ class Scheduler:
 
     def generate_daily_plan(self):
         """Return tasks sorted by due_time to form a simple daily plan."""
-        return sorted(self.get_all_tasks(), key=lambda t: t.due_time)
+        return sorted(self.get_all_tasks(), key=lambda t: (_parse_time(t.due_time), t.priority, t.task_type))
 
     def sort_by_time(self):
-       """Sort all tasks chronologically by their due_time (HH:MM format)."""
-       return sorted(self.get_all_tasks(), key=lambda t: t.due_time)
+        """Sort all tasks chronologically by their due_time (HH:MM format)."""
+        return sorted(self.get_all_tasks(), key=lambda t: (_parse_time(t.due_time), t.priority, t.task_type))
 
     def filter_tasks(self, pet_name=None, is_complete=None):
         """Filter tasks by pet name and/or completion status."""
